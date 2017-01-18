@@ -42,19 +42,18 @@ public class HomeCatgoryAdapter extends RecyclerView.Adapter<HomeCatgoryAdapter.
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
 
         mInflater = LayoutInflater.from(viewGroup.getContext());
-        if(type == VIEW_TYPE_R)
+        if(type == VIEW_TYPE_R) {
             return new ViewHolder(mInflater.inflate(R.layout.template_home_cardview2, viewGroup, false));
-
-        return  new ViewHolder(mInflater.inflate(R.layout.template_home_cardview,viewGroup,false));
+        }else {
+            return  new ViewHolder(mInflater.inflate(R.layout.template_home_cardview,viewGroup,false));
+        }
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
         HomeCampaign category = mDatas.get(i);
-        Log.e("tag","category="+category);
         viewHolder.textTitle.setText(category.getTitle());
-
         Glide.with(mContext).load(category.getCpOne().getImgUrl()).into(viewHolder.imageViewBig);
         Glide.with(mContext).load(category.getCpTwo().getImgUrl()).into(viewHolder.imageViewSmallTop);
         Glide.with(mContext).load(category.getCpThree().getImgUrl()).into(viewHolder.imageViewSmallBottom);
@@ -70,8 +69,10 @@ public class HomeCatgoryAdapter extends RecyclerView.Adapter<HomeCatgoryAdapter.
 
         if(position % 2==0){
             return  VIEW_TYPE_R;
+        }else {
+            return VIEW_TYPE_L;
         }
-        else return VIEW_TYPE_L;
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

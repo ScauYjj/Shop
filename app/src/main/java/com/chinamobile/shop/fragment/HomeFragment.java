@@ -154,7 +154,16 @@ public class HomeFragment extends Fragment {
         //设置分割线
         mRecyclerView.addItemDecoration(new DividerItemDecortion());
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+      //  mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+
+        //禁止RecyclerView上下滚动
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        mRecyclerView.setLayoutManager(linearLayoutManager);
     }
 
     /**

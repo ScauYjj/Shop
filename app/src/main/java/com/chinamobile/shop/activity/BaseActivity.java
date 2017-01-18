@@ -1,7 +1,10 @@
 package com.chinamobile.shop.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -18,6 +21,8 @@ import butterknife.ButterKnife;
  */
 
 public class BaseActivity extends AppCompatActivity{
+
+    private boolean connected = false;//判断网络是否已经连接
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,5 +56,14 @@ public class BaseActivity extends AppCompatActivity{
         Intent intent = new Intent();
         intent.setClass(this,activity);
         startActivity(intent);
+    }
+
+    /**
+     * //判断网络是否已经连接上
+     */
+    public void checkNet() {
+        ConnectivityManager manager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = manager.getActiveNetworkInfo();
+        connected = info != null && info.isConnected();
     }
 }
