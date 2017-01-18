@@ -1,0 +1,94 @@
+package com.chinamobile.shop.activity;
+
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TabHost;
+import android.widget.TextView;
+
+import com.chinamobile.shop.R;
+import com.chinamobile.shop.bean.Tab;
+import com.chinamobile.shop.fragment.CartFragment;
+import com.chinamobile.shop.fragment.CategoryFragment;
+import com.chinamobile.shop.fragment.HomeFragment;
+import com.chinamobile.shop.fragment.HotFragment;
+import com.chinamobile.shop.fragment.MineFragment;
+import com.chinamobile.shop.widget.FragmentTabHost;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class MainActivity extends BaseActivity {
+
+    @BindView(android.R.id.tabhost)
+    FragmentTabHost mTabHost;
+
+    private LayoutInflater mInflater;
+    private List<Tab> mTabs;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        initTab();
+    }
+
+    /**
+     * 初始化tabHost
+     */
+    private void initTab(){
+        mInflater = LayoutInflater.from(this);
+        mTabHost.setup(this,getSupportFragmentManager(),R.id.realtabcontent);
+        Tab tab_home = new Tab(R.string.home,R.drawable.selector_icon_home,HomeFragment.class);
+        Tab  tab_hot = new Tab(R.string.hot,R.drawable.selector_icon_hot,HotFragment.class);
+        Tab tab_category = new Tab(R.string.category,R.drawable.selector_icon_category,CategoryFragment.class);
+        Tab tab_cart = new Tab(R.string.cart,R.drawable.selector_icon_cart,CartFragment.class);
+        Tab tab_mine = new Tab(R.string.mine,R.drawable.selector_icon_mine,MineFragment.class);
+
+        mTabs = new ArrayList<>();
+        mTabs.add(tab_home);
+        mTabs.add(tab_hot);
+        mTabs.add(tab_category);
+        mTabs.add(tab_cart);
+        mTabs.add(tab_mine);
+
+        for (Tab tab : mTabs){
+            TabHost.TabSpec tabSpec = mTabHost.newTabSpec(getString(tab.getTitle()));
+            tabSpec.setIndicator(buildIndicator(tab));
+            mTabHost.addTab(tabSpec,tab.getFragment(),null);
+        }
+        //去除底部分割线
+        mTabHost.getTabWidget().setShowDividers(LinearLayout.SHOW_DIVIDER_NONE);
+        mTabHost.setCurrentTab(0);
+    }
+
+    /**
+     * 创建底部tab
+     * @param tab
+     * @return
+     */
+    private View buildIndicator(Tab tab){
+        View view = mInflater.inflate(R.layout.tab_indicator,null);
+        ImageView img = (ImageView) view.findViewById(R.id.icon_tab);
+        TextView text = (TextView) view.findViewById(R.id.text_indicator);
+
+        img.setImageResource(tab.getIcon());
+        text.setText(getString(tab.getTitle()));
+        return view;
+    }
+
+    @Override
+    public void showSnackBar(View view, int resId) {
+        super.showSnackBar(view, resId);
+    }
+}

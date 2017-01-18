@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">JJ商城</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="home">主页</string>
+    <string name="hot">热卖</string>
+    <string name="category">分类</string>
+    <string name="cart">购物车</string>
+    <string name="mine">我的</string>
+    <string name="new_recommended">新品推荐</string>
+    <string name="seckill">家电秒杀</string>
+    <string name="fashion">时尚男装</string>
+</resources>
