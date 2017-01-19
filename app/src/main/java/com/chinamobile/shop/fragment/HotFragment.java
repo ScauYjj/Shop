@@ -17,7 +17,11 @@ import android.widget.Toast;
 
 import com.chinamobile.shop.R;
 import com.chinamobile.shop.activity.MainActivity;
+import com.chinamobile.shop.adapter.BaseAdapter;
+import com.chinamobile.shop.adapter.BaseViewHolder;
+import com.chinamobile.shop.adapter.HWAdapter;
 import com.chinamobile.shop.adapter.HotWaresAdapter;
+import com.chinamobile.shop.adapter.SimpleAdapter;
 import com.chinamobile.shop.bean.Page;
 import com.chinamobile.shop.bean.Wares;
 import com.chinamobile.shop.http.OkHttpHelper;
@@ -25,6 +29,7 @@ import com.chinamobile.shop.http.SportCallback;
 import com.chinamobile.shop.widget.Constant;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.Serializable;
 import java.util.List;
@@ -49,7 +54,7 @@ public class HotFragment extends Fragment {
 
     private OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
     private List<Wares>mDatas;
-    private HotWaresAdapter mAdapter;
+    private HWAdapter mAdapter;
 
     private  static final int STATE_NORMAL=0;
     private  static final int STATE_REFRESH =1;
@@ -163,11 +168,36 @@ public class HotFragment extends Fragment {
     private void showData() {
         switch (state){
             case STATE_NORMAL:
-                mAdapter = new HotWaresAdapter(mDatas,getContext());
+                mAdapter = new HWAdapter(getContext(),mDatas);
+                mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        Toast.makeText(getContext(),""+mDatas.get(position).getName().toString(),Toast.LENGTH_SHORT).show();
+                    }
+                });
                 mRecyclerView.setAdapter(mAdapter);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                 mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+
+/*
+                mRecyclerView.setAdapter(new SimpleAdapter<Wares>(getContext(),mDatas,R.layout.template_hot_wares) {
+                    @Override
+                    protected void bindData(BaseViewHolder viewHolder, Wares wares) {
+
+                        SimpleDraweeView draweeView = (SimpleDraweeView) viewHolder.getView(R.id.drawee_view);
+                        draweeView.setImageURI(wares.getImgUrl());
+
+                        viewHolder.getTextView(R.id.text_title).setText(wares.getName());
+                        viewHolder.getTextView(R.id.text_price).setText(wares.getPrice().toString());
+                    }
+                });
+*/
+
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+
                 break;
             case STATE_REFRESH:
                 mAdapter.clearData();

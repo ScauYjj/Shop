@@ -45,6 +45,7 @@ dependencies {
     compile 'org.xutils:xutils:3.3.40'
     //很好用的recyclerview的adapter
     compile 'com.github.baserecycleradapter:library:1.0.9'
+    compile 'com.orhanobut:logger:1.15'
 }
 
 

@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.chinamobile.shop.R;
 import com.chinamobile.shop.bean.Campaign;
 import com.chinamobile.shop.bean.HomeCampaign;
+import com.chinamobile.shop.utils.ImageRequestManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -54,9 +55,14 @@ public class HomeCatgoryAdapter extends RecyclerView.Adapter<HomeCatgoryAdapter.
 
         HomeCampaign category = mDatas.get(i);
         viewHolder.textTitle.setText(category.getTitle());
-        Glide.with(mContext).load(category.getCpOne().getImgUrl()).into(viewHolder.imageViewBig);
+
+        /*Glide.with(mContext).load(category.getCpOne().getImgUrl()).into(viewHolder.imageViewBig);
         Glide.with(mContext).load(category.getCpTwo().getImgUrl()).into(viewHolder.imageViewSmallTop);
-        Glide.with(mContext).load(category.getCpThree().getImgUrl()).into(viewHolder.imageViewSmallBottom);
+        Glide.with(mContext).load(category.getCpThree().getImgUrl()).into(viewHolder.imageViewSmallBottom);*/
+
+        ImageRequestManager.getRequest().display(mContext,viewHolder.imageViewBig,category.getCpOne().getImgUrl());
+        ImageRequestManager.getRequest().display(mContext,viewHolder.imageViewSmallTop,category.getCpTwo().getImgUrl());
+        ImageRequestManager.getRequest().display(mContext,viewHolder.imageViewSmallBottom,category.getCpThree().getImgUrl());
     }
 
     @Override

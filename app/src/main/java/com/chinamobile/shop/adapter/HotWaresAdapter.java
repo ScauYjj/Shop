@@ -12,6 +12,7 @@ import com.chinamobile.shop.R;
 import com.chinamobile.shop.bean.Page;
 import com.chinamobile.shop.bean.Wares;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -41,7 +42,6 @@ public class HotWaresAdapter extends RecyclerView.Adapter<HotWaresAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Wares wares = mDatas.get(position);
-
         /**
          * Uri 与 String的区别？
          */
