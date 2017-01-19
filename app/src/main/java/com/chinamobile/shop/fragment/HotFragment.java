@@ -30,6 +30,7 @@ import com.chinamobile.shop.widget.Constant;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.orhanobut.logger.Logger;
 
 import java.io.Serializable;
 import java.util.List;
@@ -47,10 +48,6 @@ public class HotFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private MaterialRefreshLayout mRefreshLayout;
     private MainActivity activity;
-/*    @BindView(R.id.drawee_view)
-    SimpleDraweeView mDraweeView;
-    @BindView(R.id.recycler)
-    RecyclerView mRecyclerView;*/
 
     private OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
     private List<Wares>mDatas;
@@ -88,7 +85,6 @@ public class HotFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_hot,container,false);
-        //ButterKnife.bind(this.getActivity());
         activity = (MainActivity) getActivity();
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.recycler);
         mRefreshLayout = (MaterialRefreshLayout) mView.findViewById(R.id.refresh);
@@ -108,6 +104,7 @@ public class HotFragment extends Fragment {
             public void onSuccess(Response response, Object o) {
                 Page<Wares> waresPage = (Page<Wares>) o;
                 mDatas = waresPage.getList();
+                Logger.e(mDatas.toString());
                 curPage = waresPage.getCurrentPage();
                 totalPage = waresPage.getTotalPage();
                 handler.sendEmptyMessage(GET_DATA_SUCCEESS);
@@ -172,32 +169,13 @@ public class HotFragment extends Fragment {
                 mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
                     @Override
                     public void onClick(View view, int position) {
-                        Toast.makeText(getContext(),""+mDatas.get(position).getName().toString(),Toast.LENGTH_SHORT).show();
+                     Toast.makeText(getContext(),""+mDatas.get(position).getName().toString(),Toast.LENGTH_SHORT).show();
                     }
                 });
                 mRecyclerView.setAdapter(mAdapter);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                 mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-
-/*
-                mRecyclerView.setAdapter(new SimpleAdapter<Wares>(getContext(),mDatas,R.layout.template_hot_wares) {
-                    @Override
-                    protected void bindData(BaseViewHolder viewHolder, Wares wares) {
-
-                        SimpleDraweeView draweeView = (SimpleDraweeView) viewHolder.getView(R.id.drawee_view);
-                        draweeView.setImageURI(wares.getImgUrl());
-
-                        viewHolder.getTextView(R.id.text_title).setText(wares.getName());
-                        viewHolder.getTextView(R.id.text_price).setText(wares.getPrice().toString());
-                    }
-                });
-*/
-
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-
                 break;
             case STATE_REFRESH:
                 mAdapter.clearData();
@@ -208,6 +186,9 @@ public class HotFragment extends Fragment {
             case STATE_MORE:
                 int position = mAdapter.getDatas().size();
                 mAdapter.addData(position,mDatas);
+                //将请求网络返回的数据清空，再将所有数据添加并显示
+                mDatas.clear();
+                mDatas.addAll(mAdapter.getDatas());
                 mRecyclerView.scrollToPosition(position);
                 mRefreshLayout.finishRefreshLoadMore();
                 break;
