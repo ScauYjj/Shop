@@ -36,13 +36,13 @@ public abstract class SportCallback<T> extends BaseCallback{
     @Override
     public void onFailure(Call call, IOException e) {
         hideDialog();
-        MainActivity activity = (MainActivity) mContext;
+        /*MainActivity activity = (MainActivity) mContext;
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(mContext,"加载失败...",Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
 
     @Override

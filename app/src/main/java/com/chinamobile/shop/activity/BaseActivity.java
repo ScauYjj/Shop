@@ -59,7 +59,7 @@ public class BaseActivity extends AppCompatActivity{
     }
 
     /**
-     * //判断网络是否已经连接上
+     * 判断网络是否已经连接上
      */
     public void checkNet() {
         ConnectivityManager manager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);

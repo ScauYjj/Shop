@@ -127,4 +127,24 @@ public class HomeCatgoryAdapter extends RecyclerView.Adapter<HomeCatgoryAdapter.
     public interface OnCampaignCllickListener{
        void onClick(View view, Campaign campaign);
     }
+
+    public List<HomeCampaign> getDatas(){
+        return mDatas;
+    }
+
+    public void clearData(){
+        mDatas.clear();
+        notifyItemRangeRemoved(0,mDatas.size());
+    }
+
+    public void addData(List<HomeCampaign> datas){
+        addData(0,datas);
+    }
+
+    public void addData(int position,List<HomeCampaign> datas){
+        if (datas !=null && datas.size()>0){
+            mDatas.addAll(mDatas);
+            notifyItemRangeChanged(position,mDatas.size());
+        }
+    }
 }

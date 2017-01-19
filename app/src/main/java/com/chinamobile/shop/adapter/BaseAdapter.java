@@ -20,6 +20,10 @@ public abstract class BaseAdapter<T,H extends BaseViewHolder> extends RecyclerVi
     private int mLayoutId;
     private OnItemClickListener listener;
 
+    public BaseAdapter(Context context, int layoutId){
+      this(context,null,layoutId);
+    }
+
     public BaseAdapter(Context context, List<T> datas, int layoutId){
         this.mContext = context;
         this.mDatas = datas;
@@ -51,9 +55,9 @@ public abstract class BaseAdapter<T,H extends BaseViewHolder> extends RecyclerVi
     public void setOnItemClickListener(OnItemClickListener listener){
         this.listener = listener;
     }
+
     public interface OnItemClickListener{
         void onClick(View view,int position);
-
     }
 
     public List<T> getDatas(){

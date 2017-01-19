@@ -1,15 +1,10 @@
 package com.chinamobile.shop.fragment;
 
-import android.app.Activity;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +17,14 @@ import com.chinamobile.shop.adapter.HomeCatgoryAdapter;
 import com.chinamobile.shop.bean.Banner;
 import com.chinamobile.shop.bean.Campaign;
 import com.chinamobile.shop.bean.HomeCampaign;
-import com.chinamobile.shop.bean.HomeCategory;
 import com.chinamobile.shop.http.BaseCallback;
 import com.chinamobile.shop.http.OkHttpHelper;
 import com.chinamobile.shop.http.SportCallback;
 import com.chinamobile.shop.widget.Constant;
 import com.chinamobile.shop.widget.ShopRecyclerView;
 import com.chinamobile.shop.widget.ShopToolbar;
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
@@ -51,12 +47,16 @@ public class HomeFragment extends Fragment {
     private SliderLayout mSlider;
     private PagerIndicator indicator;
     private ShopRecyclerView mRecyclerView;
+    private MaterialRefreshLayout mRefreshLayout;
+
     private HomeCatgoryAdapter mAdapter;
     private OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
-    private List<Banner> mBanner = new ArrayList<>();
+    private List<Banner> mBanner;
+
     private final static int UP_DATE_IMAGES_SUCCESS = 0;
     private final static int UP_DATE_IMAGES_FAILED =1;
     private final static int UP_DATE_HOME_CAMPAGIN = 2;
+    private final static int REQUEST_FAILED =3;
 
 
     private Handler handler = new Handler(){
@@ -67,13 +67,17 @@ public class HomeFragment extends Fragment {
                     initSlider();
                     break;
                 case UP_DATE_IMAGES_FAILED:
-                   MainActivity activity = (MainActivity) getActivity();
-                    activity.showSnackBar(mSlider,"广告加载失败");
+                    Toast.makeText(getContext(),"广告加载失败",Toast.LENGTH_SHORT).show();
                     break;
                 case UP_DATE_HOME_CAMPAGIN:
                     Bundle bundle = msg.getData();
                     ArrayList<HomeCampaign> homeCampaigns = (ArrayList<HomeCampaign>) bundle.getSerializable("home_campaign");
-                    initData(homeCampaigns);
+                    initReycyclerView(homeCampaigns);
+                    mRefreshLayout.finishRefreshing();
+                    break;
+                case REQUEST_FAILED:
+                    Toast.makeText(getContext(),"网络请求失败",Toast.LENGTH_SHORT).show();
+                    mRefreshLayout.finishRefreshing();
                     break;
                 default:
                     break;
@@ -84,18 +88,42 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
-        mToolbar = (ShopToolbar) view.findViewById(R.id.toolbar);
+
+        initView();
         requestImage();
         initSlider();
-        initRecyclerView();
+        requestData();
         return view;
     }
 
-    /**
-     * 初始化RecyclerView
-     */
-    private void initRecyclerView() {
+    private void initView() {
+        mToolbar = (ShopToolbar) view.findViewById(R.id.toolbar);
         mRecyclerView = (ShopRecyclerView) view.findViewById(R.id.recycler);
+        mRefreshLayout = (MaterialRefreshLayout) view.findViewById(R.id.refresh_layout);
+
+        mRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+            @Override
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                requestData();
+                requestImage();
+            }
+        });
+
+        indicator = (PagerIndicator) view.findViewById(R.id.custom_indicator);
+        mSlider = (SliderLayout) view.findViewById(R.id.slider);
+
+        //自定义Indicator
+        mSlider.setCustomIndicator(indicator);
+
+        mSlider.setCustomAnimation(new DescriptionAnimation());
+        mSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+        mSlider.setDuration(3000);
+    }
+
+    /**
+     * 请求HomeCampaign数据
+     */
+    private void requestData() {
 
         okHttpHelper.get(Constant.API.HOME_COMPAGIN_URL, new BaseCallback<ArrayList<HomeCampaign>>() {
             @Override
@@ -105,7 +133,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call call, IOException e) {
-
+               handler.sendEmptyMessage(REQUEST_FAILED);
             }
 
             @Override
@@ -138,32 +166,37 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void initData(List<HomeCampaign> homeCampaigns){
+    private void initReycyclerView(List<HomeCampaign> homeCampaigns){
 
-        mAdapter = new HomeCatgoryAdapter(homeCampaigns,getActivity());
+        if (mAdapter == null){
+            mAdapter = new HomeCatgoryAdapter(homeCampaigns,getActivity());
 
-        mAdapter.setOnCampaignCllickListener(new HomeCatgoryAdapter.OnCampaignCllickListener() {
-            @Override
-            public void onClick(View view, Campaign campaign) {
-                Toast.makeText(getActivity(),""+campaign.getTitle(),Toast.LENGTH_SHORT).show();
-            }
-        });
+            mAdapter.setOnCampaignCllickListener(new HomeCatgoryAdapter.OnCampaignCllickListener() {
+                @Override
+                public void onClick(View view, Campaign campaign) {
+                    Toast.makeText(getActivity(),""+campaign.getTitle(),Toast.LENGTH_SHORT).show();
+                }
+            });
 
-        mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setAdapter(mAdapter);
 
-        //设置分割线
-        mRecyclerView.addItemDecoration(new DividerItemDecortion());
+            //设置分割线
+            mRecyclerView.addItemDecoration(new DividerItemDecortion());
 
-      //  mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+            //禁止RecyclerView上下滚动
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()) {
+                @Override
+                public boolean canScrollVertically() {
+                    return false;
+                }
+            };
+            mRecyclerView.setLayoutManager(linearLayoutManager);
+        }else {
+            mAdapter.clearData();
+            mAdapter.addData(homeCampaigns);
+            mAdapter.notifyItemRangeChanged(0,mAdapter.getDatas().size());
+        }
 
-        //禁止RecyclerView上下滚动
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
-        mRecyclerView.setLayoutManager(linearLayoutManager);
     }
 
     /**
@@ -174,6 +207,9 @@ public class HomeFragment extends Fragment {
         okHttpHelper.get(url, new SportCallback<List<Banner>>(getActivity()) {
             @Override
             public void onSuccess(Response response, Object o) {
+                if (mBanner != null){
+                    mBanner.clear();
+                }
                 mBanner = (List<Banner>) o;
                 handler.sendEmptyMessage(UP_DATE_IMAGES_SUCCESS);
             }
@@ -189,10 +225,7 @@ public class HomeFragment extends Fragment {
      * 初始化slider
      */
     private void initSlider() {
-
-        indicator = (PagerIndicator) view.findViewById(R.id.custom_indicator);
-        mSlider = (SliderLayout) view.findViewById(R.id.slider);
-
+        mSlider.removeAllSliders();
         if (mBanner != null) {
             for (Banner banner : mBanner) {
                 TextSliderView textSliderView = new TextSliderView(this.getActivity());
@@ -201,16 +234,11 @@ public class HomeFragment extends Fragment {
                 textSliderView.setScaleType(BaseSliderView.ScaleType.Fit);
                 mSlider.addSlider(textSliderView);
             }
+            //设置默认的Indicator
             //  mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
 
-            //自定义Indicator
-            mSlider.setCustomIndicator(indicator);
 
-            mSlider.setCustomAnimation(new DescriptionAnimation());
-            mSlider.setPresetTransformer(SliderLayout.Transformer.Default);
-            mSlider.setDuration(3000);
-
-            mSlider.addOnPageChangeListener(new ViewPagerEx.OnPageChangeListener() {
+            /*mSlider.addOnPageChangeListener(new ViewPagerEx.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int i, float v, int i1) {
 
@@ -225,7 +253,7 @@ public class HomeFragment extends Fragment {
                 public void onPageScrollStateChanged(int i) {
 
                 }
-            });
+            });*/
         }
     }
 
