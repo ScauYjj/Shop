@@ -104,7 +104,7 @@ public class HomeCatgoryAdapter extends RecyclerView.Adapter<HomeCatgoryAdapter.
 
         @Override
         public void onClick(View view) {
-            Logger.e(mDatas.toString());
+           // Logger.e(mDatas.toString());
             HomeCampaign campaign = mDatas.get(getLayoutPosition());
             if (listener != null){
                 switch (view.getId()){
