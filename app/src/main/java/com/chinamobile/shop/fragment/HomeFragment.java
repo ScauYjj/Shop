@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.chinamobile.shop.R;
-import com.chinamobile.shop.activity.MainActivity;
 import com.chinamobile.shop.adapter.DividerItemDecortion;
 import com.chinamobile.shop.adapter.HomeCatgoryAdapter;
 import com.chinamobile.shop.bean.Banner;
@@ -20,7 +19,7 @@ import com.chinamobile.shop.bean.HomeCampaign;
 import com.chinamobile.shop.http.BaseCallback;
 import com.chinamobile.shop.http.OkHttpHelper;
 import com.chinamobile.shop.http.SportCallback;
-import com.chinamobile.shop.widget.Constant;
+import com.chinamobile.shop.Constant;
 import com.chinamobile.shop.widget.ShopRecyclerView;
 import com.chinamobile.shop.widget.ShopToolbar;
 import com.cjj.MaterialRefreshLayout;
@@ -30,7 +29,7 @@ import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +51,7 @@ public class HomeFragment extends Fragment {
     private HomeCatgoryAdapter mAdapter;
     private OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
     private List<Banner> mBanner;
+    private ArrayList<HomeCampaign> homeCampaigns;
 
     private final static int UP_DATE_IMAGES_SUCCESS = 0;
     private final static int UP_DATE_IMAGES_FAILED =1;
@@ -71,7 +71,8 @@ public class HomeFragment extends Fragment {
                     break;
                 case UP_DATE_HOME_CAMPAGIN:
                     Bundle bundle = msg.getData();
-                    ArrayList<HomeCampaign> homeCampaigns = (ArrayList<HomeCampaign>) bundle.getSerializable("home_campaign");
+                    homeCampaigns = (ArrayList<HomeCampaign>) bundle.getSerializable("home_campaign");
+              ///      Logger.e(String.valueOf(homeCampaigns.size()));
                     initReycyclerView(homeCampaigns);
                     mRefreshLayout.finishRefreshing();
                     break;
@@ -104,8 +105,8 @@ public class HomeFragment extends Fragment {
         mRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                requestData();
                 requestImage();
+                requestData();
             }
         });
 

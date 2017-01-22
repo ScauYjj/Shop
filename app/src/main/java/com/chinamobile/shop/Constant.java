@@ -1,4 +1,4 @@
-package com.chinamobile.shop.widget;
+package com.chinamobile.shop;
 
 /**
  * Created by yjj on 2017/1/17.
@@ -13,5 +13,7 @@ public class Constant {
         public static final String HOME_COMPAGIN_URL = BASE_URL + "campaign/recommend";
 
         public static final String HOT_WARES_URL = BASE_URL + "wares/hot";
+
+        public static final String CATEGORY_LIST=BASE_URL +"category/list";
     }
 }

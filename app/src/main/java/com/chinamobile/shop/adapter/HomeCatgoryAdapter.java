@@ -15,6 +15,7 @@ import com.chinamobile.shop.R;
 import com.chinamobile.shop.bean.Campaign;
 import com.chinamobile.shop.bean.HomeCampaign;
 import com.chinamobile.shop.utils.ImageRequestManager;
+import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -103,6 +104,7 @@ public class HomeCatgoryAdapter extends RecyclerView.Adapter<HomeCatgoryAdapter.
 
         @Override
         public void onClick(View view) {
+            Logger.e(mDatas.toString());
             HomeCampaign campaign = mDatas.get(getLayoutPosition());
             if (listener != null){
                 switch (view.getId()){
@@ -143,7 +145,7 @@ public class HomeCatgoryAdapter extends RecyclerView.Adapter<HomeCatgoryAdapter.
 
     public void addData(int position,List<HomeCampaign> datas){
         if (datas !=null && datas.size()>0){
-            mDatas.addAll(mDatas);
+            mDatas.addAll(datas);
             notifyItemRangeChanged(position,mDatas.size());
         }
     }

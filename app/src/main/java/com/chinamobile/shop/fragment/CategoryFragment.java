@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chinamobile.shop.R;
+import com.chinamobile.shop.http.OkHttpHelper;
 
 
 /**
@@ -16,11 +17,18 @@ import com.chinamobile.shop.R;
 
 public class CategoryFragment extends Fragment {
 
-    View mView;
+    private View mView;
+
+    private OkHttpHelper okHttpHelper;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_category,container,false);
         return  mView;
+    }
+
+    private void requestCategoryData(){
+
     }
 }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.chinamobile.shop.Constant;
 import com.chinamobile.shop.R;
 import com.chinamobile.shop.activity.MainActivity;
 import com.chinamobile.shop.adapter.BaseAdapter;
@@ -26,7 +27,6 @@ import com.chinamobile.shop.bean.Page;
 import com.chinamobile.shop.bean.Wares;
 import com.chinamobile.shop.http.OkHttpHelper;
 import com.chinamobile.shop.http.SportCallback;
-import com.chinamobile.shop.widget.Constant;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.facebook.drawee.view.SimpleDraweeView;
