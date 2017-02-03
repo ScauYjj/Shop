@@ -33,14 +33,31 @@ public abstract class BaseCallback <T>{
         return $Gson$Types.canonicalize(parameterized.getActualTypeArguments()[0]);
     }
 
+    /**
+     *请求成功时调用此方法
+     * @param response
+     */
+    public abstract  void onResponse(Response response);
+
+    /**
+     *
+     * 状态码大于200，小于300 时调用此方法
+     * @param response
+     * @param t
+     * @throws IOException
+     */
+    public abstract void onSuccess(Response response,T t) ;
+
+    /**
+     * 状态码400，404，403，500等时调用此方法
+     * @param response
+     * @param code
+     * @param e
+     */
+    public abstract void onError(Response response, int code,Exception e) ;
+
 
     public abstract void onRequestBefore(Request request);
 
     public abstract void onFailure(Call call, IOException e) ;
-
-    public abstract void onSuccess(Response response, T t);
-
-    public abstract void onError(Response response, int code, Exception e);
-
-    public abstract void onResponse(Response response);
 }

@@ -1,13 +1,13 @@
 package com.chinamobile.shop.bean;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by yjj on 2017/1/17.
+ * Created by <a href="http://www.cniao5.com">菜鸟窝</a>
+ * 一个专业的Android开发在线教育平台
  */
+public class Page<T> {
 
-public class Page<T> implements Serializable {
 
     private  int currentPage;
     private  int pageSize;
@@ -15,6 +15,7 @@ public class Page<T> implements Serializable {
     private  int totalCount;
 
     private List<T> list;
+
 
     public int getCurrentPage() {
         return currentPage;
@@ -54,16 +55,5 @@ public class Page<T> implements Serializable {
 
     public void setList(List<T> list) {
         this.list = list;
-    }
-
-    @Override
-    public String toString() {
-        return "Page{" +
-                "currentPage=" + currentPage +
-                ", pageSize=" + pageSize +
-                ", totalPage=" + totalPage +
-                ", totalCount=" + totalCount +
-                ", list=" + list +
-                '}';
     }
 }

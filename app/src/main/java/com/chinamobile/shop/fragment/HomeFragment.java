@@ -29,7 +29,6 @@ import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public class HomeFragment extends Fragment {
     private HomeCatgoryAdapter mAdapter;
     private OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
     private List<Banner> mBanner;
-    private ArrayList<HomeCampaign> homeCampaigns;
+    private List<HomeCampaign> mHomeCategoris;
 
     private final static int UP_DATE_IMAGES_SUCCESS = 0;
     private final static int UP_DATE_IMAGES_FAILED =1;
@@ -70,10 +69,7 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getContext(),"广告加载失败",Toast.LENGTH_SHORT).show();
                     break;
                 case UP_DATE_HOME_CAMPAGIN:
-                    Bundle bundle = msg.getData();
-                    homeCampaigns = (ArrayList<HomeCampaign>) bundle.getSerializable("home_campaign");
-              ///      Logger.e(String.valueOf(homeCampaigns.size()));
-                    initReycyclerView(homeCampaigns);
+                    initReycyclerView();
                     mRefreshLayout.finishRefreshing();
                     break;
                 case REQUEST_FAILED:
@@ -125,32 +121,23 @@ public class HomeFragment extends Fragment {
      * 请求HomeCampaign数据
      */
     private void requestData() {
-
-        okHttpHelper.get(Constant.API.HOME_COMPAGIN_URL, new BaseCallback<ArrayList<HomeCampaign>>() {
+        okHttpHelper.get(Constant.API.HOME_COMPAGIN_URL, new BaseCallback<List<HomeCampaign>>() {
             @Override
             public void onRequestBefore(Request request) {
 
             }
 
             @Override
-            public void onFailure(Call call, IOException e) {
-               handler.sendEmptyMessage(REQUEST_FAILED);
+            public void onSuccess(Response response, List<HomeCampaign> homeCampaigns) {
+                mHomeCategoris = homeCampaigns;
+                Message msg = handler.obtainMessage(UP_DATE_HOME_CAMPAGIN);
+                handler.sendMessage(msg);
             }
 
             @Override
-            public void onSuccess(Response response, final ArrayList<HomeCampaign> homeCampaigns) {
-                Message msg = new Message();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("home_campaign",homeCampaigns);
-                msg.setData(bundle);
-                msg.what = UP_DATE_HOME_CAMPAGIN;
+            public void onFailure(Call call, IOException e) {
+                Message msg = handler.obtainMessage(REQUEST_FAILED);
                 handler.sendMessage(msg);
-             /*  getActivity().runOnUiThread(new Runnable() {
-                   @Override
-                   public void run() {
-                       initData(homeCampaigns);
-                   }
-               });*/
             }
 
             @Override
@@ -165,12 +152,13 @@ public class HomeFragment extends Fragment {
         });
 
 
+
     }
 
-    private void initReycyclerView(List<HomeCampaign> homeCampaigns){
+    private void initReycyclerView(){
 
         if (mAdapter == null){
-            mAdapter = new HomeCatgoryAdapter(homeCampaigns,getActivity());
+            mAdapter = new HomeCatgoryAdapter(mHomeCategoris,getActivity());
 
             mAdapter.setOnCampaignCllickListener(new HomeCatgoryAdapter.OnCampaignCllickListener() {
                 @Override
@@ -194,17 +182,17 @@ public class HomeFragment extends Fragment {
             mRecyclerView.setLayoutManager(linearLayoutManager);
         }else {
             mAdapter.clearData();
-            mAdapter.addData(homeCampaigns);
+            mAdapter.addData(mHomeCategoris);
             mAdapter.notifyItemRangeChanged(0,mAdapter.getDatas().size());
         }
 
     }
 
     /**
-     * 请求广告条
+     * 网络请求广告条
      */
     private void requestImage(){
-        String url ="http://112.124.22.238:8081/course_api/banner/query?type=1";
+        String url = Constant.API.BANNER+"?type=1";
         okHttpHelper.get(url, new SportCallback<List<Banner>>(getActivity()) {
             @Override
             public void onSuccess(Response response, Object o) {
@@ -212,12 +200,14 @@ public class HomeFragment extends Fragment {
                     mBanner.clear();
                 }
                 mBanner = (List<Banner>) o;
-                handler.sendEmptyMessage(UP_DATE_IMAGES_SUCCESS);
+                Message msg  = handler.obtainMessage(UP_DATE_IMAGES_SUCCESS);
+                handler.sendMessage(msg);
             }
 
             @Override
             public void onError(Response response, int code, Exception e) {
-                handler.sendEmptyMessage(UP_DATE_IMAGES_FAILED);
+                Message msg  = handler.obtainMessage(UP_DATE_IMAGES_FAILED);
+                handler.sendMessage(msg);
             }
         });
     }
@@ -237,7 +227,6 @@ public class HomeFragment extends Fragment {
             }
             //设置默认的Indicator
             //  mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-
 
             /*mSlider.addOnPageChangeListener(new ViewPagerEx.OnPageChangeListener() {
                 @Override

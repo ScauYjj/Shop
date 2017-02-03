@@ -24,7 +24,7 @@ public abstract class SportCallback<T> extends BaseCallback{
     private Context mContext;
 
     public SportCallback(Context context){
-        dialog = new SpotsDialog(context);
+        dialog = new SpotsDialog(context,"拼命加载中...");
         this.mContext = context;
     }
 
@@ -33,16 +33,13 @@ public abstract class SportCallback<T> extends BaseCallback{
         showDialog();
     }
 
+    public void setLoadMessage(int resId){
+        dialog.setMessage(mContext.getString(resId));
+    }
+
     @Override
     public void onFailure(Call call, IOException e) {
         hideDialog();
-        /*MainActivity activity = (MainActivity) mContext;
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(mContext,"加载失败...",Toast.LENGTH_SHORT).show();
-            }
-        });*/
     }
 
     @Override
@@ -62,5 +59,4 @@ public abstract class SportCallback<T> extends BaseCallback{
     private void setMessage(String str){
         dialog.setMessage(str);
     }
-
 }

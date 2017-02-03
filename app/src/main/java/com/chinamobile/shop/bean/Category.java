@@ -28,4 +28,12 @@ public class Category extends BaseBean {
     }
 
     private String name;
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }
+

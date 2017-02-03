@@ -28,4 +28,8 @@
     <dimen name="normalButtonTextSize">16.0dip</dimen>
     <dimen name="smallButtonTextSize">14.0dip</dimen>
 
+    <dimen name="ware_grid_img_width">100dip</dimen>
+    <dimen name="ware_grid_img_height">100dip</dimen>
+    <dimen name="category_layout_width">100dip</dimen>
+
 </resources>

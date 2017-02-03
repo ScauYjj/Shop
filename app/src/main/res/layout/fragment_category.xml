@@ -1,6 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <com.chinamobile.shop.widget.ShopToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        app:isShowSearchView="true">
+    </com.chinamobile.shop.widget.ShopToolbar>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_category"
+            android:layout_width="@dimen/category_layout_width"
+            android:layout_height="fill_parent"
+            android:background="@color/white"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="2dp">
+
+            <com.daimajia.slider.library.SliderLayout
+                android:id="@+id/slider"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                custom:pager_animation="Accordion"
+                custom:auto_cycle="true"
+                custom:indicator_visibility="visible"
+                custom:pager_animation_span="1100" />
+
+<!--
+            <com.daimajia.slider.library.Indicators.PagerIndicator
+                android:id="@+id/custom_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+-->
+
+<!--            <com.daimajia.slider.library.Indicators.PagerIndicator
+                android:id="@+id/custom_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                custom:selected_color="#555555"
+                custom:unselected_color="#55555555"
+                custom:shape="oval"
+                custom:selected_padding_left="3dp"
+                custom:selected_padding_right="3dp"
+                custom:unselected_padding_left="3dp"
+                custom:unselected_padding_right="3dp"
+                android:layout_gravity="center_horizontal"
+                custom:selected_width="8dp"
+                custom:selected_height="8dp"
+                custom:unselected_width="4dp"
+                custom:unselected_height="4dp" />-->
+
+
+            <com.cjj.MaterialRefreshLayout
+                android:id="@+id/refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                app:overlay="false"
+                app:wave_show="false"
+                app:progress_colors="@array/material_colors"
+                app:wave_height_type="higher"
+                app:progress_show_circle_backgroud="false">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_wares"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </com.cjj.MaterialRefreshLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -60,6 +60,18 @@ public abstract class BaseAdapter<T,H extends BaseViewHolder> extends RecyclerVi
         void onClick(View view,int position);
     }
 
+
+    public T getItem(int position) {
+        if (position >= mDatas.size()) return null;
+        return mDatas.get(position);
+    }
+
+    public void clear(){
+        int itemCount = mDatas.size();
+        mDatas.clear();
+        this.notifyItemRangeRemoved(0,itemCount);
+    }
+
     public List<T> getDatas(){
         return mDatas;
     }

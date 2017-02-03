@@ -3,9 +3,9 @@ package com.chinamobile.shop.bean;
 import java.io.Serializable;
 
 /**
- * Created by yjj on 2017/1/17.
+ * Created by <a href="http://www.cniao5.com">菜鸟窝</a>
+ * 一个专业的Android开发在线教育平台
  */
-
 public class Wares implements Serializable {
 
 
@@ -54,16 +54,5 @@ public class Wares implements Serializable {
 
     public void setPrice(Float price) {
         this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "Wares{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", imgUrl='" + imgUrl + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                '}';
     }
 }

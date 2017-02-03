@@ -14,6 +14,10 @@ public class Constant {
 
         public static final String HOT_WARES_URL = BASE_URL + "wares/hot";
 
+        public static final String BANNER=BASE_URL +"banner/query";
+
+        public static final String WARES_LIST=BASE_URL +"wares/list";
+
         public static final String CATEGORY_LIST=BASE_URL +"category/list";
     }
 }

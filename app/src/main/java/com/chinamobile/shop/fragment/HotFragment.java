@@ -59,9 +59,9 @@ public class HotFragment extends Fragment {
 
     private int state = STATE_NORMAL;
 
-    private int curPage =1;
-    private int pageSize =10;
-    private int totalPage =1;
+    private long curPage = 1;
+    private int pageSize = 10;
+    private int totalPage = 1;
 
     public static final int GET_DATA_SUCCEESS = 0;
     public static final int GET_DATA_FAILED = 1;
@@ -104,15 +104,16 @@ public class HotFragment extends Fragment {
             public void onSuccess(Response response, Object o) {
                 Page<Wares> waresPage = (Page<Wares>) o;
                 mDatas = waresPage.getList();
-                Logger.e(mDatas.toString());
                 curPage = waresPage.getCurrentPage();
                 totalPage = waresPage.getTotalPage();
-                handler.sendEmptyMessage(GET_DATA_SUCCEESS);
+                Message msg =handler.obtainMessage(GET_DATA_SUCCEESS);
+                handler.sendMessage(msg);
             }
 
             @Override
             public void onError(Response response, int code, Exception e) {
-                handler.sendEmptyMessage(GET_DATA_FAILED);
+                Message msg =handler.obtainMessage(GET_DATA_FAILED);
+                handler.sendMessage(msg);
             }
         });
     }
@@ -134,7 +135,8 @@ public class HotFragment extends Fragment {
                     loadMore();
                 }else {
                     mRefreshLayout.finishRefreshLoadMore();
-                    activity.showSnackBar(mRefreshLayout,"已加载完毕");
+                    Toast.makeText(getContext(),"已加载完毕",Toast.LENGTH_SHORT).show();
+                    //activity.showSnackBar(mRefreshLayout,"已加载完毕");
                 }
             }
         });
