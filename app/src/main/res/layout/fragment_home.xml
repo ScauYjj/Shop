@@ -13,9 +13,7 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:background="@color/colorPrimaryDark"
-        app:title="主页"
-        app:leftButtonIcon="@mipmap/icon_back_32px"
-        app:rightButtonIcon="@mipmap/icon_search">
+        app:title="主页">
     </com.chinamobile.shop.widget.ShopToolbar>
 
     <com.cjj.MaterialRefreshLayout

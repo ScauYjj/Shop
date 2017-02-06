@@ -1,6 +1,7 @@
 package com.chinamobile.shop.activity;
 
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ public class MainActivity extends BaseActivity {
 
     private LayoutInflater mInflater;
     private List<Tab> mTabs;
+    private CartFragment cartFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +69,33 @@ public class MainActivity extends BaseActivity {
             tabSpec.setIndicator(buildIndicator(tab));
             mTabHost.addTab(tabSpec,tab.getFragment(),null);
         }
+        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+
+                if (tabId == getString(R.string.cart)){
+                    refData();
+                }
+            }
+        });
         //去除底部分割线
         mTabHost.getTabWidget().setShowDividers(LinearLayout.SHOW_DIVIDER_NONE);
         mTabHost.setCurrentTab(0);
+    }
+
+    /**
+     * 往购物车添加数据时刷新
+     */
+    private void refData(){
+        if (cartFragment == null){
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.cart));
+            if (fragment != null){
+                cartFragment = (CartFragment) fragment;
+                cartFragment.refData();
+            }
+        }else {
+            cartFragment.refData();
+        }
     }
 
     /**

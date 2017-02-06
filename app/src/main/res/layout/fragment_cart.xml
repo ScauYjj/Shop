@@ -1,6 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <com.chinamobile.shop.widget.ShopToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/cart"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_marginBottom="50dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:background="@color/gray"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <TextView
+            android:id="@+id/txt_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/checkbox_all"
+            android:layout_marginLeft="40dp"
+            android:layout_centerVertical="true"
+            android:textSize="20dp"
+            android:text="@string/total"/>
+
+
+        <Button
+            android:id="@+id/btn_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:minHeight="60dp"
+            android:minWidth="120dp"
+            android:text="@string/delete"
+            style="@style/bigRedButton"/>
+
+        <Button
+            android:id="@+id/btn_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:minWidth="100dp"
+            android:text="@string/cleanning"
+            style="@style/bigRedButton"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <CheckBox
+            android:id="@+id/checkbox_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/select_all"
+            style="@style/customCheckbox"
+            android:layout_alignBaseline="@+id/btn_order"
+            android:layout_alignBottom="@+id/btn_order"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

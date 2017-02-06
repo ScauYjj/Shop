@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,7 +26,7 @@ public class ShopToolbar extends Toolbar{
     private LayoutInflater mInflater;
     private View mView;
     private ImageView mLeftImageButton;
-    private ImageView mRightImageButton;
+    private Button mRightButton;
     private TextView mTextTitle;
     private EditText mSearchView;
 
@@ -69,9 +70,9 @@ public class ShopToolbar extends Toolbar{
     }
 
     private void setRightButtonIcon(Drawable navIcon) {
-        if (mRightImageButton != null){
-            mRightImageButton.setImageDrawable(navIcon);
-            mRightImageButton.setVisibility(View.VISIBLE);
+        if (mRightButton != null){
+            mRightButton.setBackground(navIcon);
+            mRightButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -87,6 +88,10 @@ public class ShopToolbar extends Toolbar{
         mLeftImageButton.setImageDrawable(icon);
     }
 
+    public Button getRightButton(){
+        return this.mRightButton;
+    }
+
     private void initView() {
         if (mView == null){
             mInflater = LayoutInflater.from(getContext());
@@ -94,7 +99,7 @@ public class ShopToolbar extends Toolbar{
 
             mTextTitle = (TextView) mView.findViewById(R.id.toolbar_title);
             mLeftImageButton = (ImageView) mView.findViewById(R.id.toolbar_leftButton);
-            mRightImageButton = (ImageView) mView.findViewById(R.id.toolbar_rightButton);
+            mRightButton = (Button) mView.findViewById(R.id.toolbar_rightButton);
             mSearchView = (EditText) mView.findViewById(R.id.toolbar_searchview);
 
             LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER_VERTICAL);
@@ -117,7 +122,7 @@ public class ShopToolbar extends Toolbar{
     }
 
     public void setRightButtonListener(OnClickListener listener){
-        mRightImageButton.setOnClickListener(listener);
+        mRightButton.setOnClickListener(listener);
     }
 
     public void showTitleView(){

@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:background="@color/colorPrimaryDark"
-        app:isShowSearchView="true">
-    </com.chinamobile.shop.widget.ShopToolbar>
+        app:isShowSearchView="true"/>
 
     <LinearLayout
         android:orientation="horizontal"

@@ -37,15 +37,15 @@
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
-    <ImageButton
+    <Button
         android:id="@+id/toolbar_rightButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:textColor="@color/white"
         android:visibility="gone"
         android:background="@null"
         android:layout_marginRight="8dp"/>
