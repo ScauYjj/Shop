@@ -10,33 +10,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by <a href="http://www.cniao5.com">菜鸟窝</a>
- * 一个专业的Android开发在线教育平台
+ * 用于保存购物车数据
  */
 public class CartProvider {
-
-
 
     public static final String CART_JSON="cart_json";
 
     private SparseArray<ShoppingCart> datas =null;
-
-
     private  Context mContext;
-
 
     public CartProvider(Context context){
 
         mContext = context;
        datas = new SparseArray<>(10);
         listToSparse();
-
     }
 
-
-
+    /**
+     * 购物车添加数据
+     * @param cart
+     */
     public void put(ShoppingCart cart){
-
 
        ShoppingCart temp =  datas.get(cart.getId().intValue());
 
@@ -47,42 +41,55 @@ public class CartProvider {
             temp = cart;
             temp.setCount(1);
         }
-
         datas.put(cart.getId().intValue(),temp);
 
         commit();
 
     }
 
+    /**
+     * 购物车更新数据
+     * @param cart
+     */
     public void update(ShoppingCart cart){
 
         datas.put(cart.getId().intValue(),cart);
         commit();
     }
 
+    /**
+     * 购物车删除数据
+     * @param cart
+     */
     public void delete(ShoppingCart cart){
         datas.delete(cart.getId().intValue());
         commit();
     }
 
+    /**
+     * 获取购物车所有数据
+     * @return
+     */
     public List<ShoppingCart> getAll(){
 
         return  getDataFromLocal();
     }
 
-
+    /**
+     * 将SparseArray据添加到内存
+     */
     public void commit(){
-
-
         List<ShoppingCart> carts = sparseToList();
 
         PreferencesUtils.putString(mContext,CART_JSON,JSONUtil.toJSON(carts));
-
     }
 
 
+    /**
+     * 将SparseArray转化成List
+     * @return
+     */
     private List<ShoppingCart> sparseToList(){
-
 
         int size = datas.size();
 
@@ -95,8 +102,9 @@ public class CartProvider {
 
     }
 
-
-
+    /**
+     * 将本地的数据添加到SparseArray
+     */
     private void listToSparse(){
 
         List<ShoppingCart> carts =  getDataFromLocal();
@@ -111,23 +119,21 @@ public class CartProvider {
 
     }
 
-
-
+    /**
+     * 从SharePreference获取本地数据
+     * @return
+     */
     public  List<ShoppingCart> getDataFromLocal(){
 
         String json = PreferencesUtils.getString(mContext,CART_JSON);
-        List<ShoppingCart> carts =null;
+        List<ShoppingCart> carts = new ArrayList<>();
         if(json !=null ){
 
             carts = JSONUtil.fromJson(json,new TypeToken<List<ShoppingCart>>(){}.getType());
 
         }
-
         return  carts;
 
     }
-
-
-
 
 }

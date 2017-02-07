@@ -1,6 +1,7 @@
 package com.chinamobile.shop.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -55,6 +56,11 @@ public class ShopToolbar extends Toolbar{
                 setLeftButtonIcon(navIcon);
             }
 
+            final String text = a.getString(R.styleable.ShopToolbar_rightButtonText);
+            if (text != null){
+                setRightButtonText(text);
+            }
+
             final Drawable rightIcon = a.getDrawable(R.styleable.ShopToolbar_rightButtonIcon);
             if (navIcon != null) {
                 setRightButtonIcon(rightIcon);
@@ -66,6 +72,14 @@ public class ShopToolbar extends Toolbar{
                 hideTitleView();
             }
             a.recycle();
+        }
+    }
+
+    private void setRightButtonText(String text){
+        if (mRightButton != null){
+            mRightButton.setTextColor(Color.WHITE);
+            mRightButton.setText(text);
+            mRightButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -86,10 +100,6 @@ public class ShopToolbar extends Toolbar{
     @Override
     public void setNavigationIcon(@Nullable Drawable icon) {
         mLeftImageButton.setImageDrawable(icon);
-    }
-
-    public Button getRightButton(){
-        return this.mRightButton;
     }
 
     private void initView() {

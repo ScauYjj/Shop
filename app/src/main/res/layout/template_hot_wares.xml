@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:maxLines="3"
             android:text="sjfidasjdi"/>
 
@@ -28,25 +28,16 @@
             android:id="@+id/text_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/firebrick"
+            android:layout_marginTop="5dp"
             android:text="sdifis"/>
-
-        <Button
-            android:id="@+id/hot_button_buy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/smallRedButton"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="立即购买"
-            android:layout_gravity="right|bottom" />
 
     </LinearLayout>
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:background="@null"
         android:id="@+id/drawee_view"
         app:viewAspectRatio="1"
@@ -56,6 +47,17 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
     </com.facebook.drawee.view.SimpleDraweeView>
+
+    <Button
+        android:id="@+id/hot_button_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/smallRedButton"
+        android:text="立即购买"
+        android:layout_gravity="right|bottom"
+        android:layout_alignBottom="@+id/drawee_view"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

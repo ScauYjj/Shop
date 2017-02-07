@@ -1,5 +1,6 @@
 package com.chinamobile.shop.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -91,6 +92,12 @@ public class HomeFragment extends Fragment {
         initSlider();
         requestData();
         return view;
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     private void initView() {

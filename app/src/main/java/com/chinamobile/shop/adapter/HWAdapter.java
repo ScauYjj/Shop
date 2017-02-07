@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.chinamobile.shop.R;
+import com.chinamobile.shop.activity.MainActivity;
 import com.chinamobile.shop.bean.ShoppingCart;
 import com.chinamobile.shop.bean.Wares;
 import com.chinamobile.shop.utils.CartProvider;
@@ -42,7 +43,8 @@ public class HWAdapter extends SimpleAdapter<Wares>{
             @Override
             public void onClick(View view) {
                 cartProvider.put(convertData(wares));
-                ToastUtils.show(mContext,"已添加到购物车");
+                MainActivity activity = (MainActivity) mContext;
+                activity.showSnackBar(view,"已添加到购物车");
             }
         });
     }
