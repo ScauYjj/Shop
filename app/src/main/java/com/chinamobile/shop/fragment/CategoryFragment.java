@@ -6,7 +6,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,7 +18,7 @@ import com.chinamobile.shop.R;
 import com.chinamobile.shop.adapter.BaseAdapter;
 import com.chinamobile.shop.adapter.CategoryAdapter;
 import com.chinamobile.shop.adapter.WaresAdapter;
-import com.chinamobile.shop.adapter.WrapContentLinearLayoutManager;
+import com.chinamobile.shop.adapter.WrapContentGridLayoutManager;
 import com.chinamobile.shop.adapter.decoration.DividerGridItemDecoration;
 import com.chinamobile.shop.adapter.decoration.DividerItemDecoration;
 import com.chinamobile.shop.bean.Banner;
@@ -35,7 +34,6 @@ import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 import java.util.List;
@@ -343,7 +341,7 @@ public class CategoryFragment extends Fragment {
                       }
                   });
                   mRecyclerWare.setAdapter(mWaresAdapter);
-                  mRecyclerWare.setLayoutManager(new WrapContentLinearLayoutManager(getContext(),2));
+                  mRecyclerWare.setLayoutManager(new WrapContentGridLayoutManager(getContext(),2));
                   mRecyclerWare.setItemAnimator(new DefaultItemAnimator());
                   mRecyclerWare.addItemDecoration(new DividerGridItemDecoration(getContext()));
               }else {

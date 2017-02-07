@@ -56,11 +56,6 @@ public class ShopToolbar extends Toolbar{
                 setLeftButtonIcon(navIcon);
             }
 
-            final String text = a.getString(R.styleable.ShopToolbar_rightButtonText);
-            if (text != null){
-                setRightButtonText(text);
-            }
-
             final Drawable rightIcon = a.getDrawable(R.styleable.ShopToolbar_rightButtonIcon);
             if (navIcon != null) {
                 setRightButtonIcon(rightIcon);
@@ -75,7 +70,11 @@ public class ShopToolbar extends Toolbar{
         }
     }
 
-    private void setRightButtonText(String text){
+    public Button getRightButton(){
+        return this.mRightButton;
+    }
+
+    public void setRightButtonText(String text){
         if (mRightButton != null){
             mRightButton.setTextColor(Color.WHITE);
             mRightButton.setText(text);

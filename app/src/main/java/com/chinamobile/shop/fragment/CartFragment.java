@@ -1,10 +1,8 @@
 package com.chinamobile.shop.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +13,8 @@ import android.widget.TextView;
 
 import com.chinamobile.shop.R;
 import com.chinamobile.shop.adapter.ShoppingCartAdapter;
+import com.chinamobile.shop.adapter.WrapContentGridLayoutManager;
+import com.chinamobile.shop.adapter.WrapContentLinearLayoutManager;
 import com.chinamobile.shop.adapter.decoration.DividerItemDecoration;
 import com.chinamobile.shop.bean.ShoppingCart;
 import com.chinamobile.shop.utils.CartProvider;
@@ -26,7 +26,7 @@ import java.util.List;
  * Created by yjj on 2016/10/26.
  */
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment implements View.OnClickListener {
 
     private View mView;
     private ShopToolbar mToolbar;
@@ -37,6 +37,9 @@ public class CartFragment extends Fragment {
     private Button mBtnDel;
     private ShoppingCartAdapter mAdapter;
     private CartProvider cartProvider;
+
+    public static final int ACTION_EDIT = 1;
+    public static final int ACTION_COMPLATED = 2;
 
     @Nullable
     @Override
@@ -55,6 +58,17 @@ public class CartFragment extends Fragment {
         mTextTotal = (TextView) mView.findViewById(R.id.txt_total);
         mBtnOrder = (Button) mView.findViewById(R.id.btn_order);
         mBtnDel = (Button) mView.findViewById(R.id.btn_del);
+
+        mToolbar.setRightButtonText(getString(R.string.edit));
+        mToolbar.getRightButton().setOnClickListener(this);
+        mToolbar.getRightButton().setTag(ACTION_EDIT);
+
+        mBtnDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAdapter.delCart();
+            }
+        });
     }
 
     /**
@@ -64,7 +78,7 @@ public class CartFragment extends Fragment {
         List<ShoppingCart> mDatas = cartProvider.getAll();
         mAdapter = new ShoppingCartAdapter(getContext(),mDatas,mCheckBox,mTextTotal);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL_LIST));
     }
 
@@ -76,5 +90,37 @@ public class CartFragment extends Fragment {
         List<ShoppingCart> mDatas = cartProvider.getAll();
         mAdapter.addData(mDatas);
         mAdapter.showTotalPrice();
+    }
+
+    @Override
+    public void onClick(View view) {
+        int action = (int) view.getTag();
+        if (ACTION_EDIT == action){
+            showDelController();
+        }else if (ACTION_COMPLATED == action){
+            hideDelController();
+        }
+    }
+
+    private void showDelController(){
+        mToolbar.setRightButtonText(getString(R.string.completed));
+        mBtnDel.setVisibility(View.VISIBLE);
+        mBtnOrder.setVisibility(View.GONE);
+        mTextTotal.setVisibility(View.GONE);
+        mToolbar.getRightButton().setTag(ACTION_COMPLATED);
+
+        mAdapter.checkAllOrNull(false);
+        mCheckBox.setChecked(false);
+    }
+
+    private void hideDelController(){
+        mToolbar.setRightButtonText(getString(R.string.edit));
+        mBtnDel.setVisibility(View.GONE);
+        mBtnOrder.setVisibility(View.VISIBLE);
+        mTextTotal.setVisibility(View.VISIBLE);
+        mToolbar.getRightButton().setTag(ACTION_EDIT);
+
+        mAdapter.checkAllOrNull(true);
+        mCheckBox.setChecked(true);
     }
 }

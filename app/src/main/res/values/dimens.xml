@@ -26,7 +26,7 @@
 
     <dimen name="bigButtonTextSize">18.0dip</dimen>
     <dimen name="normalButtonTextSize">16.0dip</dimen>
-    <dimen name="smallButtonTextSize">13.0dip</dimen>
+    <dimen name="smallButtonTextSize">16.0dip</dimen>
 
     <dimen name="ware_grid_img_width">80dip</dimen>
     <dimen name="ware_grid_img_height">80dip</dimen>

@@ -15,6 +15,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -154,6 +155,30 @@ public class ShoppingCartAdapter extends SimpleAdapter<ShoppingCart> implements 
             }
             if (checkNum == mDatas.size()){
                 checkBox.setChecked(true);
+            }
+        }
+    }
+
+    public void delCart(){
+        if (!isNull())
+            return;
+        //在对List循环遍历的时候，在循环过程中会改变list的长度，会报错
+//        for (ShoppingCart cart : mDatas){
+//            if (cart.isChecked()){
+//                int position = mDatas.indexOf(cart);
+//                cartProvider.delete(cart);
+//                mDatas.remove(cart);
+//                notifyItemChanged(position);
+//            }
+//        }
+
+        for (Iterator iterator = mDatas.iterator() ; iterator.hasNext();){
+            ShoppingCart cart = (ShoppingCart) iterator.next();
+            if (cart.isChecked()){
+                int position = mDatas.indexOf(cart);
+                cartProvider.delete(cart);
+                iterator.remove();
+                notifyItemRemoved(position);
             }
         }
     }

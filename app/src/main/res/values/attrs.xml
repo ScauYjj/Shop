@@ -5,7 +5,6 @@
         <attr name="leftButtonIcon" format="reference"/>
         <attr name="rightButtonIcon" format="reference"/>
         <attr name="isShowSearchView" format="boolean"/>
-        <attr name="rightButtonText" format="reference"/>
     </declare-styleable>
 
     <attr name="value" format="integer|reference"/>
