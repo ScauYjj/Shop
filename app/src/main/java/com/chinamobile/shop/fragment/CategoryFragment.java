@@ -74,6 +74,7 @@ public class CategoryFragment extends Fragment {
     private  static final int STATE_MORE=2;
 
     private int state = STATE_NORMAL;
+
     /**
      * 获取category成功
      */
