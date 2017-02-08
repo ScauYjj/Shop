@@ -12,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.chinamobile.shop.R;
+import com.chinamobile.shop.activity.MainActivity;
+import com.chinamobile.shop.activity.SecondActivity;
 import com.chinamobile.shop.adapter.ShoppingCartAdapter;
 import com.chinamobile.shop.adapter.WrapContentGridLayoutManager;
 import com.chinamobile.shop.adapter.WrapContentLinearLayoutManager;
@@ -96,7 +98,9 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         int action = (int) view.getTag();
         if (ACTION_EDIT == action){
-            showDelController();
+           // showDelController();
+            MainActivity activity = (MainActivity) getActivity();
+            activity.startToActivity(SecondActivity.class);
         }else if (ACTION_COMPLATED == action){
             hideDelController();
         }
@@ -122,5 +126,6 @@ public class CartFragment extends Fragment implements View.OnClickListener {
 
         mAdapter.checkAllOrNull(true);
         mCheckBox.setChecked(true);
+        mAdapter.showTotalPrice();
     }
 }

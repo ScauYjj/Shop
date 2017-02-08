@@ -159,6 +159,9 @@ public class ShoppingCartAdapter extends SimpleAdapter<ShoppingCart> implements 
         }
     }
 
+    /**
+     * 删除购物车数据
+     */
     public void delCart(){
         if (!isNull())
             return;
