@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.SparseArray;
 
 import com.chinamobile.shop.bean.ShoppingCart;
+import com.chinamobile.shop.bean.Wares;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -14,16 +15,26 @@ import java.util.List;
  */
 public class CartProvider {
 
+    private static CartProvider mInstance;
+
     public static final String CART_JSON="cart_json";
 
     private SparseArray<ShoppingCart> datas =null;
+
     private  Context mContext;
 
-    public CartProvider(Context context){
+    private CartProvider(Context context){
 
         mContext = context;
        datas = new SparseArray<>(10);
         listToSparse();
+    }
+
+    public static CartProvider getmInstance(Context context){
+        if (mInstance == null){
+            mInstance = new CartProvider(context);
+        }
+        return mInstance;
     }
 
     /**
@@ -44,6 +55,18 @@ public class CartProvider {
         datas.put(cart.getId().intValue(),temp);
 
         commit();
+
+    }
+
+    /**
+     * 购物车添加数据
+     * @param wares
+     */
+    public void put(Wares wares){
+
+        ShoppingCart temp =  convertData(wares);
+
+        put(temp);
 
     }
 
@@ -134,6 +157,19 @@ public class CartProvider {
         }
         return  carts;
 
+    }
+
+    public ShoppingCart convertData(Wares item){
+
+        ShoppingCart cart = new ShoppingCart();
+
+        cart.setId(item.getId());
+        cart.setDescription(item.getDescription());
+        cart.setImgUrl(item.getImgUrl());
+        cart.setName(item.getName());
+        cart.setPrice(item.getPrice());
+
+        return cart;
     }
 
 }

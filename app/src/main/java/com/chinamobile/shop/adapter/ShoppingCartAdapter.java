@@ -36,7 +36,7 @@ public class ShoppingCartAdapter extends SimpleAdapter<ShoppingCart> implements 
         this.textTotal = textView;
         setOnItemClickListener(this);
         showTotalPrice();
-        cartProvider = new CartProvider(context);
+        cartProvider = CartProvider.getmInstance(context);
 
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override

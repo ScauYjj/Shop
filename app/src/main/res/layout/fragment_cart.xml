@@ -13,12 +13,19 @@
         android:minHeight="?attr/actionBarSize"
         android:background="@color/colorPrimaryDark"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <com.cjj.MaterialRefreshLayout
+        android:id="@+id/cart_swipe_reflesh_layout"
         android:layout_below="@id/toolbar"
-        android:layout_marginBottom="50dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"/>
+
+    </com.cjj.MaterialRefreshLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

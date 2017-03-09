@@ -114,6 +114,7 @@ public class BaseActivity extends AppCompatActivity{
     public void startToActivity(Class activity) {
         Intent intent = new Intent();
         intent.setClass(this,activity);
+        startActivity(intent);
         //设置过场动画
         // overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }

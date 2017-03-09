@@ -1,5 +1,6 @@
 package com.chinamobile.shop.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.chinamobile.shop.Constant;
 import com.chinamobile.shop.R;
 import com.chinamobile.shop.activity.MainActivity;
+import com.chinamobile.shop.activity.WaresListActivity;
 import com.chinamobile.shop.adapter.BaseAdapter;
 import com.chinamobile.shop.adapter.BaseViewHolder;
 import com.chinamobile.shop.adapter.HWAdapter;
@@ -27,6 +29,7 @@ import com.chinamobile.shop.bean.Page;
 import com.chinamobile.shop.bean.Wares;
 import com.chinamobile.shop.http.OkHttpHelper;
 import com.chinamobile.shop.http.SportCallback;
+import com.chinamobile.shop.utils.Pager;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -83,7 +86,7 @@ public class HotFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_hot,container,false);
         activity = (MainActivity) getActivity();
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.recycler);
@@ -171,7 +174,9 @@ public class HotFragment extends Fragment {
                 mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
                     @Override
                     public void onClick(View view, int position) {
-                     Toast.makeText(getContext(),""+mDatas.get(position).getName().toString(),Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getContext(), WaresListActivity.class);
+                        intent.putExtra(Constant.WARE,mDatas.get(position));
+                        startActivity(intent);
                     }
                 });
                 mRecyclerView.setAdapter(mAdapter);

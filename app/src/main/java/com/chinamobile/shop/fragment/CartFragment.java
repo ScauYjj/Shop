@@ -19,6 +19,8 @@ import com.chinamobile.shop.adapter.decoration.DividerItemDecoration;
 import com.chinamobile.shop.bean.ShoppingCart;
 import com.chinamobile.shop.utils.CartProvider;
 import com.chinamobile.shop.widget.ShopToolbar;
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
 
 import java.util.List;
 
@@ -37,6 +39,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     private Button mBtnDel;
     private ShoppingCartAdapter mAdapter;
     private CartProvider cartProvider;
+    private MaterialRefreshLayout materialRefreshLayout;
 
     public static final int ACTION_EDIT = 1;
     public static final int ACTION_COMPLATED = 2;
@@ -51,7 +54,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
-        cartProvider = new CartProvider(getContext());
+        cartProvider = CartProvider.getmInstance(getContext());
         mToolbar = (ShopToolbar) mView.findViewById(R.id.toolbar);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.recycler_view);
         mCheckBox = (CheckBox) mView.findViewById(R.id.checkbox_all);
@@ -69,6 +72,16 @@ public class CartFragment extends Fragment implements View.OnClickListener {
                 mAdapter.delCart();
             }
         });
+
+        materialRefreshLayout = (MaterialRefreshLayout) mView.findViewById(R.id.cart_swipe_reflesh_layout);
+
+        materialRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+            @Override
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                refData();
+            }
+        });
+
     }
 
     /**
@@ -90,6 +103,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
         List<ShoppingCart> mDatas = cartProvider.getAll();
         mAdapter.addData(mDatas);
         mAdapter.showTotalPrice();
+        materialRefreshLayout.finishRefreshing();
     }
 
     @Override
@@ -123,5 +137,11 @@ public class CartFragment extends Fragment implements View.OnClickListener {
         mAdapter.checkAllOrNull(true);
         mCheckBox.setChecked(true);
         mAdapter.showTotalPrice();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refData();
     }
 }

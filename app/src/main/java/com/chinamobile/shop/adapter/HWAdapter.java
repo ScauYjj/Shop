@@ -27,7 +27,7 @@ public class HWAdapter extends SimpleAdapter<Wares>{
     public HWAdapter(Context context, List<Wares> datas) {
         super(context, datas, R.layout.template_hot_wares);
         this.mContext = context;
-        cartProvider = new CartProvider(context);
+        cartProvider = CartProvider.getmInstance(context);
     }
 
     @Override
@@ -42,23 +42,12 @@ public class HWAdapter extends SimpleAdapter<Wares>{
         viewHolder.getButton(R.id.hot_button_buy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cartProvider.put(convertData(wares));
+                cartProvider.put(wares);
                 MainActivity activity = (MainActivity) mContext;
                 activity.showSnackBar(view,"已添加到购物车");
             }
         });
     }
 
-    public ShoppingCart convertData(Wares item){
 
-        ShoppingCart cart = new ShoppingCart();
-
-        cart.setId(item.getId());
-        cart.setDescription(item.getDescription());
-        cart.setImgUrl(item.getImgUrl());
-        cart.setName(item.getName());
-        cart.setPrice(item.getPrice());
-
-        return cart;
-    }
 }

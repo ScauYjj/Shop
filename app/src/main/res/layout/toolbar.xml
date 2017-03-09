@@ -36,6 +36,8 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textColor="@color/white"
+        android:singleLine="true"
+        android:maxEms="10"
         android:textSize="20sp"
         android:visibility="gone" />
 

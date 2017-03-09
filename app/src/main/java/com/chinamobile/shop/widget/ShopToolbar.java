@@ -134,6 +134,10 @@ public class ShopToolbar extends Toolbar{
         mRightButton.setOnClickListener(listener);
     }
 
+    public void setLeftButtonListener(OnClickListener listener){
+        mLeftImageButton.setOnClickListener(listener);
+    }
+
     public void showTitleView(){
         mTextTitle.setVisibility(VISIBLE);
     }
