@@ -10,7 +10,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,23 +18,16 @@ import android.widget.Toast;
 import com.chinamobile.shop.Constant;
 import com.chinamobile.shop.R;
 import com.chinamobile.shop.activity.MainActivity;
-import com.chinamobile.shop.activity.WaresListActivity;
+import com.chinamobile.shop.activity.WaresDetailActivity;
 import com.chinamobile.shop.adapter.BaseAdapter;
-import com.chinamobile.shop.adapter.BaseViewHolder;
 import com.chinamobile.shop.adapter.HWAdapter;
-import com.chinamobile.shop.adapter.HotWaresAdapter;
-import com.chinamobile.shop.adapter.SimpleAdapter;
 import com.chinamobile.shop.bean.Page;
 import com.chinamobile.shop.bean.Wares;
 import com.chinamobile.shop.http.OkHttpHelper;
 import com.chinamobile.shop.http.SportCallback;
-import com.chinamobile.shop.utils.Pager;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.orhanobut.logger.Logger;
 
-import java.io.Serializable;
 import java.util.List;
 
 import okhttp3.Response;
@@ -174,7 +166,7 @@ public class HotFragment extends Fragment {
                 mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
                     @Override
                     public void onClick(View view, int position) {
-                        Intent intent = new Intent(getContext(), WaresListActivity.class);
+                        Intent intent = new Intent(getContext(), WaresDetailActivity.class);
                         intent.putExtra(Constant.WARE,mDatas.get(position));
                         startActivity(intent);
                     }
