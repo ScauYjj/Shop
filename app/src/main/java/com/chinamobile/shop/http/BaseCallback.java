@@ -60,4 +60,11 @@ public abstract class BaseCallback <T>{
     public abstract void onRequestBefore(Request request);
 
     public abstract void onFailure(Call call, IOException e) ;
+
+    /**
+     * 状态码401，402，403等时调用此方法
+     * @param response
+     * @param code
+     */
+    public abstract void onTokenError(Response response, int code);
 }

@@ -15,7 +15,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.chinamobile.shop.MyApplication;
 import com.chinamobile.shop.R;
+import com.chinamobile.shop.bean.User;
 import com.chinamobile.shop.utils.Activitycollector;
 
 import java.util.Timer;
@@ -74,42 +76,6 @@ public class BaseActivity extends AppCompatActivity{
         connected = info != null && info.isConnected();
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK){
-            {
-                exitBy2Click();
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 是否退出该程序
-     */
-    private  static Boolean isExit = false;
-
-    /**
-     * 双击返回退出程序
-     */
-    private void exitBy2Click() {
-        Timer tExit = null;
-        if (isExit == false){
-            isExit = true; //准备退出
-            Toast.makeText(this,"再按一次退出程序",Toast.LENGTH_SHORT).show();
-            tExit = new Timer();
-            tExit.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    isExit = false;//取消退出
-                }
-            },2000);// 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务 
-        }else {
-            /**TODO 为什么无效呢？**/
-            //Activitycollector.finishAll();
-            System.exit(0);
-        }
-    }
 
     public void startToActivity(Class activity) {
         Intent intent = new Intent();
@@ -125,5 +91,25 @@ public class BaseActivity extends AppCompatActivity{
         super.finish();
         //设置过场动画
 //        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    /**
+     * 判断跳转的页面是否需要登陆
+     * @param intent
+     * @param isNeedLogin
+     */
+    public void startActivity(Intent intent,boolean isNeedLogin){
+        if (isNeedLogin){
+            User user = MyApplication.getInstance().getUser();
+            if (user != null){
+                super.startActivity(intent);
+            }else {
+                MyApplication.getInstance().putIntent(intent);
+                Intent loginIntent = new Intent(this, LoginActivity.class);
+                super.startActivity(loginIntent);
+            }
+        }else {
+            super.startActivity(intent);
+        }
     }
 }

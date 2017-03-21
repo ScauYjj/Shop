@@ -114,7 +114,6 @@ public class ShoppingCartAdapter extends SimpleAdapter<ShoppingCart> implements 
      * @return
      */
     private boolean isNull(){
-        Logger.e(String.valueOf(mDatas));
         return mDatas.size() > 0 && mDatas != null;
     }
 

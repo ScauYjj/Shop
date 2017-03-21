@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.chinamobile.shop.R;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by yjj on 2017/1/15.
  */
@@ -27,9 +29,10 @@ public class ShopToolbar extends Toolbar{
     private LayoutInflater mInflater;
     private View mView;
     private ImageView mLeftImageButton;
-    private Button mRightButton;
+    private ImageView mRightIcon;
     private TextView mTextTitle;
     private EditText mSearchView;
+    private TextView mRightText;
 
     public ShopToolbar(Context context) {
         this(context,null);
@@ -56,7 +59,7 @@ public class ShopToolbar extends Toolbar{
                 setLeftButtonIcon(navIcon);
             }
 
-            final Drawable rightIcon = a.getDrawable(R.styleable.ShopToolbar_rightButtonIcon);
+            final Drawable rightIcon = a.getDrawable(R.styleable.ShopToolbar_rightImageIcon);
             if (navIcon != null) {
                 setRightButtonIcon(rightIcon);
             }
@@ -66,29 +69,70 @@ public class ShopToolbar extends Toolbar{
                 showSearchView();
                 hideTitleView();
             }
+
+            boolean isShowRightText = a.getBoolean(R.styleable.ShopToolbar_isShowRightText,false);
+            String rightText = a.getString(R.styleable.ShopToolbar_rightText);
+            if (isShowRightText){
+                showRightText(rightText);
+            }
+
             a.recycle();
         }
     }
 
-    public Button getRightButton(){
-        return this.mRightButton;
+
+    /**
+     * 隐藏右Icon
+     */
+    private void showRightButtonIcon() {
+        mRightIcon.setVisibility(View.VISIBLE);
+        mRightText.setVisibility(View.GONE);
     }
 
-    public void setRightButtonText(String text){
-        if (mRightButton != null){
-            mRightButton.setTextColor(Color.WHITE);
-            mRightButton.setText(text);
-            mRightButton.setVisibility(View.VISIBLE);
-        }
+    /**
+     * 显示右字体
+     */
+    private void showRightText(String text) {
+        mRightIcon.setVisibility(View.GONE);
+        mRightText.setVisibility(View.VISIBLE);
+        setRightText(text);
+
     }
 
+    public ImageView getRightIcon(){
+        return this.mRightIcon;
+    }
+
+    public TextView getRightText(){
+        return this.mRightText;
+    }
+
+    /**
+     * 设置右图标
+     * @param navIcon
+     */
     private void setRightButtonIcon(Drawable navIcon) {
-        if (mRightButton != null){
-            mRightButton.setBackground(navIcon);
-            mRightButton.setVisibility(View.VISIBLE);
+        if (mRightIcon != null){
+            mRightIcon.setImageDrawable(navIcon);
+            mRightIcon.setVisibility(View.VISIBLE);
+            mRightText.setVisibility(View.GONE);
         }
     }
 
+    /**
+     * 设置右字内容
+     * @param text
+     */
+    public void setRightText(String text){
+        if (text != null){
+            mRightText.setText(text);
+        }
+    }
+
+    /**
+     * 设置左图标
+     * @param navIcon
+     */
     private void setLeftButtonIcon(Drawable navIcon) {
         if (mLeftImageButton != null){
             mLeftImageButton.setImageDrawable(navIcon);
@@ -101,6 +145,9 @@ public class ShopToolbar extends Toolbar{
         mLeftImageButton.setImageDrawable(icon);
     }
 
+    /**
+     * 初始化控件
+     */
     private void initView() {
         if (mView == null){
             mInflater = LayoutInflater.from(getContext());
@@ -108,8 +155,9 @@ public class ShopToolbar extends Toolbar{
 
             mTextTitle = (TextView) mView.findViewById(R.id.toolbar_title);
             mLeftImageButton = (ImageView) mView.findViewById(R.id.toolbar_leftButton);
-            mRightButton = (Button) mView.findViewById(R.id.toolbar_rightButton);
+            mRightIcon = (ImageView) mView.findViewById(R.id.toolbar_right_icon);
             mSearchView = (EditText) mView.findViewById(R.id.toolbar_searchview);
+            mRightText = (TextView) mView.findViewById(R.id.toolbar_right_text);
 
             LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER_VERTICAL);
             addView(mView,lp);
@@ -121,6 +169,10 @@ public class ShopToolbar extends Toolbar{
         setTitle(getContext().getString(resId));
     }
 
+    /**
+     * 设置title
+     * @param title
+     */
     @Override
     public void setTitle(CharSequence title) {
         initView();
@@ -130,26 +182,50 @@ public class ShopToolbar extends Toolbar{
         }
     }
 
+    /**
+     * 设置右图标点击事件
+     * @param listener
+     */
     public void setRightButtonListener(OnClickListener listener){
-        mRightButton.setOnClickListener(listener);
+        mRightIcon.setOnClickListener(listener);
     }
 
+    /**
+     * 设置左图标点击事件
+     * @param listener
+     */
     public void setLeftButtonListener(OnClickListener listener){
         mLeftImageButton.setOnClickListener(listener);
     }
 
+    public void setRightTextListener(OnClickListener listener){
+        mRightText.setOnClickListener(listener);
+    }
+
+    /**
+     * 显示title
+     */
     public void showTitleView(){
         mTextTitle.setVisibility(VISIBLE);
     }
 
+    /**
+     * 隐藏title
+     */
     public void hideTitleView(){
         mTextTitle.setVisibility(GONE);
     }
 
+    /**
+     * 显示搜索框
+     */
     public void showSearchView(){
         mSearchView.setVisibility(VISIBLE);
     }
 
+    /**
+     * 隐藏搜索框
+     */
     public void hideSearchView(){
         mSearchView.setVisibility(GONE);
     }

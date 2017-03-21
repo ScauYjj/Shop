@@ -3,8 +3,10 @@
 
     <declare-styleable name="ShopToolbar">
         <attr name="leftButtonIcon" format="reference"/>
-        <attr name="rightButtonIcon" format="reference"/>
+        <attr name="rightImageIcon" format="reference"/>
         <attr name="isShowSearchView" format="boolean"/>
+        <attr name="isShowRightText" format="boolean"/>
+        <attr name="rightText" format="string"/>
     </declare-styleable>
 
     <attr name="value" format="integer|reference"/>

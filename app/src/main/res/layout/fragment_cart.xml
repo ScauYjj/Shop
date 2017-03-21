@@ -11,7 +11,9 @@
         android:layout_height="wrap_content"
         app:title="@string/cart"
         android:minHeight="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark"/>
+        android:background="@color/colorPrimaryDark"
+        app:rightText="编辑"
+        app:isShowRightText="true"/>
 
     <com.cjj.MaterialRefreshLayout
         android:id="@+id/cart_swipe_reflesh_layout"
@@ -34,7 +36,7 @@
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:background="@color/gray"
+        android:background="#88000000"
         android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/toolbar"

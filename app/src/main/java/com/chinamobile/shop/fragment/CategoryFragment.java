@@ -285,6 +285,11 @@ public class CategoryFragment extends Fragment {
             public void onFailure(Call call, IOException e) {
 
             }
+
+            @Override
+            public void onTokenError(Response response, int code) {
+
+            }
         });
     }
 

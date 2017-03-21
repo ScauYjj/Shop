@@ -11,22 +11,23 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:visibility="gone"
         android:background="@null"
-        android:layout_marginLeft="8dp"/>
+        android:layout_marginLeft="8dp"
+        android:visibility="gone"/>
 
     <EditText
         android:id="@+id/toolbar_searchview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_centerVertical="true"
         android:gravity="center"
         android:drawableLeft="@mipmap/icon_search"
         style="@style/search_view"
         android:hint="请输入搜索内容"
-        android:visibility="gone"
-        />
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/toolbar_title"
@@ -39,16 +40,29 @@
         android:singleLine="true"
         android:maxEms="10"
         android:textSize="20sp"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
-    <Button
-        android:id="@+id/toolbar_rightButton"
+    <ImageView
+        android:id="@+id/toolbar_right_icon"
         android:layout_width="wrap_content"
+        android:scaleType="centerCrop"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:gravity="center"
         android:visibility="gone"
         android:background="@null"/>
+
+    <TextView
+        android:id="@+id/toolbar_right_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:text="TextView"
+        android:visibility="gone"/>
 
 </RelativeLayout>

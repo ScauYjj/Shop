@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chinamobile.shop.R;
 import com.chinamobile.shop.bean.Tab;
@@ -24,6 +26,8 @@ import com.chinamobile.shop.widget.FragmentTabHost;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -116,5 +120,43 @@ public class MainActivity extends BaseActivity {
     @Override
     public void showSnackBar(View view, int resId) {
         super.showSnackBar(view, resId);
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            {
+                exitBy2Click();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 是否退出该程序
+     */
+    private  static Boolean isExit = false;
+
+    /**
+     * 双击返回退出程序
+     */
+    private void exitBy2Click() {
+        Timer tExit = null;
+        if (isExit == false){
+            isExit = true; //准备退出
+            Toast.makeText(this,"再按一次退出程序",Toast.LENGTH_SHORT).show();
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false;//取消退出
+                }
+            },2000);// 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务 
+        }else {
+            /**TODO 为什么无效呢？**/
+            //Activitycollector.finishAll();
+            System.exit(0);
+        }
     }
 }
