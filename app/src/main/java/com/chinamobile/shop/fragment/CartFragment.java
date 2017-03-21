@@ -161,7 +161,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
      */
     @OnClick(R.id.btn_order)
     public void toOrder(View view){
-        ToastUtils.show(getActivity(),"请先登录");
         Intent intent = new Intent(getActivity(), NewOrderActivity.class);
         startActivity(intent,true);
     }
