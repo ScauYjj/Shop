@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ware_grid_img_width">100dip</dimen>
+    <dimen name="ware_grid_img_height">100dip</dimen>
+
+    <dimen name="category_layout_width">80dip</dimen>
+</resources>
